@@ -8,12 +8,17 @@ pipeline {
                     url: 'ssh://192.168.178.30/volume1/git_repos/homeautomation.git'
             }
         }
-        stage('build image') {
+        stage('build docker image') {
             steps {
                 dir ('mqtt-elasticsearch-bridge') {
-                    sh 'ls -la'
+                    sh 'sudo docker build .'
                 }
             }
         }
+        stage('run docker image') {
+            steps {
+                sh 'sudo docker run -d python-test'
+            }
+        }        
     }
 }
