@@ -11,20 +11,20 @@ pipeline {
         stage('build docker image') {
             steps {
                 dir ('mqtt-elasticsearch-bridge') {
-                    sh 'sudo docker build .'
+                    script {
+                        docker.withServer('tcp://192.168.178.30:2375') {
+                            def testImage = docker.build("python-test")
+                            testImage.inside {
+                                sh 'ls -la'
+                            }
+                        }
+                    }
                 }
             }
         }
         stage('run docker image') {
             steps {
-                script {
-                    docker.withServer('tcp://192.168.178.30:2375') {
-                        def testImage = docker.build("python-test")
-                        testImage.inside {
-                            sh 'ls -la'
-                        }
-                    }
-                }
+
             }
         }        
     }
