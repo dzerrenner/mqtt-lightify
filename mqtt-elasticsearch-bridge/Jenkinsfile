@@ -1,0 +1,17 @@
+pipeline {
+    agent any 
+    stages {
+        stage('checkout from git') {
+            steps {
+                echo 'Hello, git!'
+                sh 'ls -la'
+            }
+        }
+        stage('build image') {
+            steps {
+                echo 'Hello, JDK'
+                sh 'cat /proc/cpuinfo'
+            }
+        }
+    }
+}
