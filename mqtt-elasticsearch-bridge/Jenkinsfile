@@ -6,14 +6,13 @@ pipeline {
                 git branch: 'master',
                     credentialsId: 'ssh-key',
                     url: 'ssh://192.168.178.30/volume1/git_repos/homeautomation.git'
-
-                sh 'ls -la'
             }
         }
         stage('build image') {
             steps {
-                echo 'Hello, JDK'
-                sh 'cat /proc/cpuinfo'
+                dir ('mqtt-elasticsearch-bridge') {
+                    sh 'ls -la'
+                }
             }
         }
     }
