@@ -3,7 +3,10 @@ pipeline {
     stages {
         stage('checkout from git') {
             steps {
-                echo 'Hello, git!'
+                git branch: 'master',
+                    credentialsId: 'ssh-key',
+                    url: 'ssh://192.168.178.30/volume1/git_repos/homeautomation.git'
+
                 sh 'ls -la'
             }
         }
