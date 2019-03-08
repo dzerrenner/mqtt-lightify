@@ -24,7 +24,7 @@ pipeline {
         }
         stage('run docker image') {
             steps {
-
+                echo "empty step"
             }
         }        
     }
