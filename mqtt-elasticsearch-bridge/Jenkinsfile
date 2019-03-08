@@ -17,7 +17,12 @@ pipeline {
         }
         stage('run docker image') {
             steps {
-                sh 'sudo docker run -d python-test'
+                docker.withServer('tcp://192.168.178.30:2375') {
+                    def testImage = docker.build("python-test")
+                    testImage.inside {
+                        sh 'ls -la'
+                    }
+                }
             }
         }        
     }
