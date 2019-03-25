@@ -1,0 +1,37 @@
+{
+    "val": 25.8,
+    "ts": 1552217123177,
+    "lc": 1552217123177,
+    "hm": {
+        "ccu": "localhost",
+        "iface": "HmIP-RF",
+        "device": "000A18A9A3C01B",
+        "deviceName": "HmIP-eTRV-2 000A18A9A3C01B",
+        "deviceType": "HmIP-eTRV-2",
+        "channel": "000A18A9A3C01B:1",
+        "channelName": "HmIP-eTRV-2 000A18A9A3C01B:1",
+        "channelType": "HEATING_CLIMATECONTROL_TRANSCEIVER",
+        "channelIndex": 1,
+        "datapoint": "ACTUAL_TEMPERATURE",
+        "datapointName": "HmIP-RF.000A18A9A3C01B:1.ACTUAL_TEMPERATURE",
+        "datapointType": "FLOAT",
+        "datapointMin": -3276.8,
+        "datapointMax": 3276.7,
+        "datapointDefault": 0,
+        "datapointControl": "HEATING_CONTROL_HMIP.TEMPERATURE",
+        "valuePrevious": 26.1,
+        "rooms": [
+            "Wohnzimmer"
+        ],
+        "room": "Wohnzimmer",
+        "functions": [
+            "Heizung"
+        ],
+        "function": "Heizung",
+        "ts": 1552217123177,
+        "tsPrevious": 1552215742938,
+        "lc": 1552217123177,
+        "change": true,
+        "cache": false
+    }
+}

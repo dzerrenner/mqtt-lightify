@@ -1,0 +1,32 @@
+{
+    "val": true,
+    "ts": 1552211394279,
+    "lc": 1552209115000,
+    "hm": {
+        "ccu": "localhost",
+        "iface": "HmIP-RF",
+        "device": "000218A995F0CB",
+        "deviceName": "HMIP-PS 000218A995F0CB",
+        "deviceType": "HMIP-PS",
+        "channel": "000218A995F0CB:3",
+        "channelName": "HMIP-PS 000218A995F0CB:3",
+        "channelType": "SWITCH_VIRTUAL_RECEIVER",
+        "channelIndex": 3,
+        "datapoint": "STATE",
+        "datapointName": "HmIP-RF.000218A995F0CB:3.STATE",
+        "datapointType": "BOOL",
+        "datapointMin": false,
+        "datapointMax": true,
+        "datapointDefault": false,
+        "datapointControl": "SWITCH.STATE",
+        "valuePrevious": true,
+        "rooms": [],
+        "functions": [],
+        "ts": 1552211394279,
+        "tsPrevious": 1552209115000,
+        "lc": 1552209115000,
+        "change": false,
+        "cache": false,
+        "working": false
+    }
+}

@@ -1,0 +1,9 @@
+### use https://marketplace.visualstudio.com/items?itemName=humao.rest-client to make these requests from vscode directly
+
+@base_url = http://192.168.178.30:9200/
+
+### Node Health
+GET {{base_url}}/_cat/health
+
+### Prune index
+DELETE {{base_url}}/hm-2019-03-09
