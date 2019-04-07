@@ -1,2 +1,2 @@
 #! /bin/sh
-docker run -n mqtt-lightify -d python-mqtt-lightify-bridge:latest
+docker run --name mqtt-lightify -d python-mqtt-lightify-bridge:latest
