@@ -118,6 +118,9 @@ class MqttLightify(object):
         for scene in scenes.keys():
             self.logger.info(f"{scene} -> {scenes[scene]}")
 
+        for light in lights.keys():
+            self.publish(f"get/{light}")
+
     def _on_command_info(self, param):
         self.logger.debug(f"INFO ({param})")
         bridge_method = getattr(self.lightify_bridge, param)
@@ -150,6 +153,9 @@ class MqttLightify(object):
         self.logger.debug(f"RCV GET from {client}:{msg.topic}, ignoring datapoint and message payload")
         _, _, device = msg.topic.split("/")
 
+        # re-read values from bridge
+        self.lightify_bridge.update_all_light_status()
+        
         # device key is an int!
         device = int(device)
 
@@ -189,7 +195,7 @@ class MqttLightify(object):
                     # "change": false,
                     # "cache": false
             })
-            self.publish(f"status/{datapoint}", payload=payload)
+            self.publish(f"status/{device}/{datapoint}", payload=payload)
             # self.logger.debug(payload)
 
 
@@ -293,9 +299,22 @@ if __name__ == "__main__":
         }
     )
 
+    import argparse
+    parser = argparse.ArgumentParser("mqtt-lightify")
+    parser.add_argument("--broker", default=None, help="mqtt broker address")
+    parser.add_argument("--bridge", default=None, help="lightify bridge address")
+
+    args = parser.parse_args()
+
     import os
-    BROKER_ADDRESS = os.environ.get("BROKER_ADDRESS", "127.0.0.1")
-    BRIDGE_ADDRESS = os.environ.get("BRIDGE_ADDRESS", "127.0.0.1")
+    if not args.broker:    
+        BROKER_ADDRESS = os.environ.get("BROKER_ADDRESS", "127.0.0.1")
+    else:
+        BROKER_ADDRESS = args.broker
+    if not args.bridge:
+        BRIDGE_ADDRESS = os.environ.get("BRIDGE_ADDRESS", "127.0.0.1")
+    else:
+        BRIDGE_ADDRESS = args.bridge
 
     bridge = MqttLightify(broker_address=BROKER_ADDRESS, bridge_address=BRIDGE_ADDRESS)
     bridge.start(loop_forever=True)

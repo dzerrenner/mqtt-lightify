@@ -14,4 +14,4 @@ WORKDIR /app
 ENV BROKER_ADDRESS 192.168.178.30
 ENV BRIDGE_ADDRESS 192.168.178.63
 
-CMD ["python", "mainloop.py"]
+CMD ["python", "mainloop.py"
