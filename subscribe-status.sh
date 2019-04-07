@@ -1,0 +1,1 @@
+mosquitto_sub -h 192.168.178.30 -F '{"topic": "%t", "payload": %p}' -t +/status/# | jq -c
