@@ -8,4 +8,6 @@ setup(name='mqtt-lightify',
       author_email='dazer017@gmail.com',
       license='MIT',
       packages=['mqtt-lightify'],
+      setup_requires=["pytest-runner", "lightify", "paho-mqtt"],
+      tests_require=["pytest", "lightify", "paho-mqtt"],
       zip_safe=False)
