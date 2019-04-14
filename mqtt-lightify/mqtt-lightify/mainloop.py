@@ -9,6 +9,7 @@ MSG_DEVICE_NOT_FOUND = "device %s not in device list."
 MSG_COLOR_FORMAT_WRONG = "color format should be html-rgb #RRGGBB"
 
 class LightifyEncoder(json.JSONEncoder):
+    """Enables objects from the lightify library to be encoded as JSON."""
     def default(self, obj):
         if isinstance(obj, lightify.Light):
             response = {}
@@ -285,19 +286,21 @@ class MqttLightify(object):
         self.mqtt_client.loop_stop()
 
 if __name__ == "__main__":
-    # logging.basicConfig(format='%(asctime)-15s %(levelname)-8s %(name)-16s %(message)s', level=logging.DEBUG)
-    import coloredlogs
-    coloredlogs.install(
-        level="DEBUG",
-        milliseconds=True,
-        fmt="%(asctime)s %(levelname)-8s %(name)-16s %(message)s",
-        field_styles={
-            'asctime': {'color': 'blue'},
-            'msecs': {'color': 'blue'},
-            'name': {'color': 'magenta'},
-            'levelname': {'color': 'white', 'faint': True}
-        }
-    )
+    try:
+        import coloredlogs
+        coloredlogs.install(
+            level="DEBUG",
+            milliseconds=True,
+            fmt="%(asctime)s %(levelname)-8s %(name)-16s %(message)s",
+            field_styles={
+                'asctime': {'color': 'blue'},
+                'msecs': {'color': 'blue'},
+                'name': {'color': 'magenta'},
+                'levelname': {'color': 'white', 'faint': True}
+            }
+        )
+    except ModuleNotFoundError:
+        logging.basicConfig(format='%(asctime)-15s %(levelname)-8s %(name)-16s %(message)s', level=logging.DEBUG)
 
     import argparse
     parser = argparse.ArgumentParser("mqtt-lightify")
