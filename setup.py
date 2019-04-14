@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(name='mqtt-lightify',
       version='0.1',
-      description='The funniest joke in the world',
+      description='Connects between MQTT and a lightify bridge.',
       url='https://github.com/dzerrenner/mqtt-lightify',
       author='David Zerrenner',
       author_email='dazer017@gmail.com',
