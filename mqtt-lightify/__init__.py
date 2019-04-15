@@ -218,7 +218,7 @@ class MqttLightify(object):
             if "on" not in bridge_device.supported_features():
                 self.logger.warning(f"device {device} does not support switching.")
             # val ist expected to contin a thruth-like value
-            val = (val == "true") or (val == "1")
+            val = (val == "true") or (val == "1") or (val == 1)
             try:
                 bridge_device.set_onoff(val)
             except KeyError:
