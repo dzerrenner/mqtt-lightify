@@ -115,4 +115,4 @@ If the bridge is started via th above command line invocation, it instantiates t
     bridge = MqttLightify(broker_address=BROKER_ADDRESS, bridge_address=BRIDGE_ADDRESS)
     bridge.start(loop_forever=True)
 
-If the `loop_forever` is provided, this basically calls the same method on the mqtt client and waits for keyboard interrupt. If its not provided, the method calls `loop_start` on the mqtt client and returns. This can be used to integrate the bridge in your own programs. The event loop runs until the `stop` method is called or the program ends.
+If `loop_forever` is provided, this basically calls the same method on the mqtt client and waits for keyboard interrupt. If its not provided, the method calls `loop_start` on the mqtt client and returns. This can be used to integrate the bridge in your own programs. The event loop runs until the `stop` method is called or the program ends.
