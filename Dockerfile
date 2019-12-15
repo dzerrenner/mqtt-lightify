@@ -8,7 +8,7 @@ RUN pip install --install-option="--prefix=/install" -r /requirements.txt
 
 FROM base
 COPY --from=builder /install /usr/local
-COPY mqtt-lightify /app
+COPY mqtt-lightify /app/mqtt-lightify
 WORKDIR /app
 
 ENV BROKER_ADDRESS 192.168.178.30
