@@ -11,7 +11,9 @@ COPY --from=builder /install /usr/local
 COPY mqtt-lightify /app/mqtt-lightify
 WORKDIR /app
 
-ENV BROKER_ADDRESS 192.168.178.30
-ENV BRIDGE_ADDRESS 192.168.178.63
+ENV BROKER_ADDRESS 192.168.x.x
+ENV BRIDGE_ADDRESS 192.168.x.x
+ENV BROKER_USER mqtt_user
+ENV BROKER_PASSWD b64password
 
 CMD ["python", "-m", "mqtt-lightify"]
