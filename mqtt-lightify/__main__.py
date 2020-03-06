@@ -25,6 +25,10 @@ parser.add_argument("--broker", default=None, help="mqtt broker address")
 parser.add_argument("--bridge", default=None, help="lightify bridge address")
 parser.add_argument("--user", default=None, help="mqtt user name")
 parser.add_argument("--password", default=None, help="mqtt user password")
+parser.add_argument("--b64password", default=None, help="b64 encoded mqtt user password")
+parser.add_argument("--transition_lum", default=None, help="transition time in 1/10s for luminance changes")
+parser.add_argument("--transition_temp", default=None, help="transition time in 1/10s for color temperature changes")
+parser.add_argument("--transition_rgb", default=None, help="transition time in 1/10s for RGB color changes")
 
 args = parser.parse_args()
 
@@ -42,10 +46,15 @@ if not args.user:
     BROKER_USER = os.environ.get("BROKER_USER")
 else:
     BROKER_USER = args.user
-if not args.password:
-    BROKER_PASSWD = base64.b64decode(os.environ.get("BROKER_PASSWD"))
-else:
+if not args.password and not args.b64password:
+    BROKER_PASSWD = os.environ.get("BROKER_PASSWD")
+    if BROKER_PASSWD:
+        BROKER_PASSWD = base64.b64decode(BROKER_PASSWD)
+elif args.password:
     BROKER_PASSWD = args.password
+elif args.b64password:
+    BROKER_PASSWD = base64.b64decode(args.b64password)
 
-bridge = MqttLightify(broker_address=BROKER_ADDRESS, bridge_address=BRIDGE_ADDRESS, username=BROKER_USER, passwd=BROKER_PASSWD)
+bridge = MqttLightify(broker_address=BROKER_ADDRESS, bridge_address=BRIDGE_ADDRESS, username=BROKER_USER, passwd=BROKER_PASSWD,
+                      trans_lum=args.transition_lum, trans_temp=args.transition_temp, trans_rgb=args.transition_rgb)
 bridge.start(loop_forever=True)

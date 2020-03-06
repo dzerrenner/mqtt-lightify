@@ -16,12 +16,21 @@ Since the bridge is usually not located on localhost and the broker could run on
 
 If you need to use a non standard port for your broker, use the following syntax: `--broker=127.0.0.1:1883`. The port for the Lightify bridge is fixed to 4000.
 
-Optionally, if your mqqt bridge requires a user name and password:
+The optional parameters `--transition_lum`, `--transition_temp` and `--transition_rgb` can be used to set transition time for luminance (brightness), color and color temperature changes, respectively. Transition time must be given in 1/10 seconds, e.g. for a 1 second luminance transition time use:
 
-    python -m mqtt-lightify --broker=127.0.0.1 --bridge=192.168.x.x --username=user --password=passwd
+    python -m mqtt-lightify --broker=127.0.0.1 --bridge=192.168.x.x --transition_lum=10
 
-Here the password must be given b64 encoded to have 
-For simplified use in isolated environments, you can also provide these using the environment variables `BROKER_ADDRESS`, `BRIDGE_ADDRESS`,`BROKER_USER` and `BROKER_PASSWD` respectively. Here `BROKER_PASSWD` must be set base64 encoded to have some basic level of obstruction. base64 encoded password can be obtained like: 
+Addionally, if your mqtt bridge requires a user name and password those can be set as command line parameters like:
+
+    python -m mqtt-lightify --broker=127.0.0.1 --bridge=192.168.x.x --username=user --password=some_password
+
+Instead of  `--password` you can also use `--b64password` to give the same base64 encoded.
+
+    python -m mqtt-lightify --broker=127.0.0.1 --bridge=192.168.x.x --username=user --password='c29tZV9wYXNzd29yZA=='
+
+For simplified use in isolated environments, you can also provide these using the environment variables `BROKER_ADDRESS`, `BRIDGE_ADDRESS`,`BROKER_USER` and `BROKER_PASSWD` respectively. Here `BROKER_PASSWD` must be set base64 encoded to have some basic level of obstruction. 
+
+Base64 encoded passwords can be obtained like: 
 
     python
     >>>import base64
