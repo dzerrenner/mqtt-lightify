@@ -26,9 +26,9 @@ Addionally, if your mqtt bridge requires a user name and password those can be s
 
 Instead of  `--password` you can also use `--b64password` to give the same base64 encoded.
 
-    python -m mqtt-lightify --broker=127.0.0.1 --bridge=192.168.x.x --username=user --password='c29tZV9wYXNzd29yZA=='
+    python -m mqtt-lightify --broker=127.0.0.1 --bridge=192.168.x.x --username=user --b64password='c29tZV9wYXNzd29yZA=='
 
-For simplified use in isolated environments, you can also provide these using the environment variables `BROKER_ADDRESS`, `BRIDGE_ADDRESS`,`BROKER_USER` and `BROKER_PASSWD` respectively. Here `BROKER_PASSWD` must be set base64 encoded to have some basic level of obstruction. 
+For simplified use in isolated environments, you can also provide these using the environment variables `BROKER_ADDRESS`, `BRIDGE_ADDRESS`,`BROKER_USER` and `BROKER_PASSWD` respectively. Here `BROKER_PASSWD` must be set base64 encoded to have some basic level of concealment. 
 
 Base64 encoded passwords can be obtained like: 
 
