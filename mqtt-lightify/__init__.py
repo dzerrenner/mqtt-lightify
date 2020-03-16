@@ -8,6 +8,9 @@ MSG_CONNECTION_STATUS_OUT_OF_BOUNDS = "connect status has to be either 0, 1 or 2
 MSG_DEVICE_NOT_FOUND = "device %s not in device list."
 MSG_COLOR_FORMAT_WRONG = "color format should be html-rgb #RRGGBB"
 
+# transition time defaults used for luminance, color temperatur or color change in 1/10 seconds
+TRANSITIONS = {'LUM' : 0, 'TEMP' : 0, 'RGB' : 0}  
+
 class LightifyEncoder(json.JSONEncoder):
     """Enables objects from the lightify library to be encoded as JSON."""
     def default(self, obj):
@@ -54,7 +57,8 @@ class LightifyEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 class MqttLightify(object):
-    def __init__(self, broker_address="127.0.0.1", bridge_address="127.0.0.1", toplevel_topic="lightify", mqtt_client_name="mqtt-lightify"):
+    def __init__(self, broker_address="127.0.0.1", bridge_address="127.0.0.1", toplevel_topic="lightify", mqtt_client_name="mqtt-lightify", 
+                 username=None, passwd=None, trans_lum=None, trans_temp=None, trans_rgb=None):
         self.toplevel_topic = toplevel_topic
         self.logger = logging.getLogger(self.__class__.__name__)
         self.logger.info(f"Starting mqtt-lightify-bridge on topic {self.toplevel_topic}")
@@ -67,9 +71,18 @@ class MqttLightify(object):
         self.mqtt_client.will_set(f"{self.toplevel_topic}/connected", 0)
         self.mqtt_client.on_connect = self._on_connect
         self.mqtt_client.on_message = self._on_message
+        if username != None and username != "":
+            self.mqtt_client.username_pw_set(username, passwd)
         self.mqtt_client.connect(broker_address)
         self.lightify_bridge = None 
 
+        self.t_lum = int(TRANSITIONS["LUM"] if trans_lum is None else trans_lum)
+        self.t_temp = int(TRANSITIONS["TEMP"] if trans_temp is None else trans_temp)
+        self.t_rgb = int(TRANSITIONS["RGB"] if trans_rgb is None else trans_rgb)
+        self.logger.debug(f"LUM TRANS: {self.t_lum}")
+        self.logger.debug(f"TEMP TRANS: {self.t_temp}")
+        self.logger.debug(f"RBG TRANS: {self.t_rgb}")
+        
         self._is_running = False
 
     def publish(self, subtopic, payload=None, qos=0, retain=False):
@@ -235,7 +248,7 @@ class MqttLightify(object):
                 red = int(val[0:2],16)
                 green = int(val[2:4],16)
                 blue = int(val[4:6],16)
-                bridge_device.set_rgb(red, green, blue, 0)
+                bridge_device.set_rgb(red, green, blue, self.t_rgb)
         elif datapoint.upper() == "LUM":
             if "lum" not in bridge_device.supported_features():
                 self.logger.warning(f"device {device} does not support luminance.")
@@ -245,7 +258,7 @@ class MqttLightify(object):
                 lum = 0
             if lum > 100:
                 lum = 100
-            bridge_device.set_luminance(lum, 0)
+            bridge_device.set_luminance(lum, self.t_lum)
         elif datapoint.upper() == "TEMP":
             if "temp" not in bridge_device.supported_features():
                 self.logger.warning(f"device {device} does not support light temperature.")
@@ -260,7 +273,7 @@ class MqttLightify(object):
             if temp > max_temp:
                 self.logger.warning(f"temperature {temp} greater than max_temp {max_temp}, setting to {max_temp}.")
                 temp = max_temp
-            bridge_device.set_temperature(temp, 0)
+            bridge_device.set_temperature(temp, self.t_temp)
 
         # update status
         self.publish(f"get/{device}")

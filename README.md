@@ -16,11 +16,31 @@ Since the bridge is usually not located on localhost and the broker could run on
 
 If you need to use a non standard port for your broker, use the following syntax: `--broker=127.0.0.1:1883`. The port for the Lightify bridge is fixed to 4000.
 
-For simplified use in isolated environments, you can also provide these using the environment variables `BROKER_ADDRESS` and `BRIDGE_ADDRESS` respectively.
+The optional parameters `--transition_lum`, `--transition_temp` and `--transition_rgb` can be used to set transition time for luminance (brightness), color and color temperature changes, respectively. Transition time must be given in 1/10 seconds, e.g. for a 1 second luminance transition time use:
+
+    python -m mqtt-lightify --broker=127.0.0.1 --bridge=192.168.x.x --transition_lum=10
+
+Addionally, if your mqtt bridge requires a user name and password those can be set as command line parameters like:
+
+    python -m mqtt-lightify --broker=127.0.0.1 --bridge=192.168.x.x --username=user --password=some_password
+
+Instead of  `--password` you can also use `--b64password` to give the same base64 encoded.
+
+    python -m mqtt-lightify --broker=127.0.0.1 --bridge=192.168.x.x --username=user --b64password='c29tZV9wYXNzd29yZA=='
+
+For simplified use in isolated environments, you can also provide these using the environment variables `BROKER_ADDRESS`, `BRIDGE_ADDRESS`,`BROKER_USER` and `BROKER_PASSWD` respectively. Here `BROKER_PASSWD` must be set base64 encoded to have some basic level of concealment. 
+
+Base64 encoded passwords can be obtained like: 
+
+    python
+    >>>import base64
+    >>> base64.b64encode(b'some_password')
+    b'c29tZV9wYXNzd29yZA=='
+
 
 ## Docker
 
-This package can easily deployed as a docker container, a Dockerfile is provided. It uses `python:3.6-alpine` as base image which usually results in a container smaller than 100MB. It has no published ports and no external volumes, so configuration is quite minimal.
+This package can easily deployed as a docker container, a sample Dockerfile is provided, just update the environment variable to your needs. It uses `python:3.6-alpine` as base image which usually results in a container smaller than 100MB. It has no published ports and no external volumes, so configuration is quite minimal.
 
 The provided shell-script `build-image.sh` creates an image named `python-mqtt-lightify-bridge:%Y%m%d-%H%M%S` and tags it with `python-mqtt-lightify-bridge:latest`. You can run the image with
 
